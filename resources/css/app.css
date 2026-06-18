@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn-primary {
+        @apply bg-[#1a3a5c] text-white px-6 py-2 rounded-lg hover:bg-[#2a5a8c] transition-all duration-300 shadow-md hover:shadow-lg;
+    }
+    
+    .btn-secondary {
+        @apply bg-[#c9a84c] text-white px-6 py-2 rounded-lg hover:bg-[#dbb95c] transition-all duration-300 shadow-md hover:shadow-lg;
+    }
+    
+    .card {
+        @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300;
+    }
+}
