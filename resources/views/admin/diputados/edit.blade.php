@@ -22,11 +22,13 @@
                         <label class="block text-gray-700 font-medium mb-2">Nombre *</label>
                         <input type="text" name="name" value="{{ old('name', $diputado->name) }}" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-gray-700 font-medium mb-2">Apellido *</label>
                         <input type="text" name="last_name" value="{{ old('last_name', $diputado->last_name) }}" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('last_name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -35,11 +37,13 @@
                         <label class="block text-gray-700 font-medium mb-2">Email *</label>
                         <input type="email" name="email" value="{{ old('email', $diputado->email) }}" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-gray-700 font-medium mb-2">Teléfono</label>
                         <input type="text" name="phone" value="{{ old('phone', $diputado->phone) }}"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('phone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -48,11 +52,13 @@
                         <label class="block text-gray-700 font-medium mb-2">Partido Político *</label>
                         <input type="text" name="political_party" value="{{ old('political_party', $diputado->political_party) }}" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('political_party') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-gray-700 font-medium mb-2">Circunscripción *</label>
                         <input type="text" name="constituency" value="{{ old('constituency', $diputado->constituency) }}" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('constituency') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -62,33 +68,44 @@
                         <input type="text" name="position" value="{{ old('position', $diputado->position) }}"
                             placeholder="Ej: Presidente, Vicepresidente..."
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('position') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-gray-700 font-medium mb-2">Fecha de Inicio *</label>
                         <input type="date" name="start_date" value="{{ old('start_date', $diputado->start_date->format('Y-m-d')) }}" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                        @error('start_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="block text-gray-700 font-medium mb-2">Fecha de Fin</label>
+                    <input type="date" name="end_date" value="{{ old('end_date', $diputado->end_date ? $diputado->end_date->format('Y-m-d') : '') }}"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                    @error('end_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="mt-4">
                     <label class="block text-gray-700 font-medium mb-2">Biografía</label>
                     <textarea name="biography_es" rows="4"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">{{ old('biography_es', $diputado->biography_es) }}</textarea>
+                    @error('biography_es') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="mt-4">
                     <label class="block text-gray-700 font-medium mb-2">Foto</label>
                     @if($diputado->photo)
-                        <div class="mb-2">
+                        <div class="mb-2 flex items-center gap-3">
                             <img src="{{ asset('storage/' . $diputado->photo) }}" 
                                  alt="{{ $diputado->full_name }}" 
-                                 class="w-24 h-24 rounded-full object-cover">
-                            <p class="text-xs text-gray-500 mt-1">Foto actual</p>
+                                 class="w-16 h-16 rounded-full object-cover">
+                            <span class="text-sm text-gray-500">Foto actual</span>
                         </div>
                     @endif
                     <input type="file" name="photo" accept="image/*"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
-                    <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG. Máx: 5MB. Dejar vacío para mantener la foto actual.</p>
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul focus:ring-2 focus:ring-parlamento-azul/20 transition">
+                    <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, GIF. Máx: 5MB. Dejar vacío para mantener la foto actual.</p>
+                    @error('photo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="mt-4">

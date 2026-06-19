@@ -41,16 +41,12 @@ class Diputado extends Model
         'views' => 'integer',
     ];
 
-    // Relación con comisiones
+    // Relaciones
     public function comisiones()
     {
-        return $this->belongsToMany(
-            Comision::class,
-            'diputado_comision',
-            'diputado_id',
-            'comision_id'
-        )->withPivot('role')
-         ->withTimestamps();
+        return $this->belongsToMany(Comision::class, 'diputado_comision', 'diputado_id', 'comision_id')
+            ->withPivot('role')
+            ->withTimestamps();
     }
 
     public function leyes()

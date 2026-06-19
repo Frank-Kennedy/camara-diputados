@@ -69,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
     // ============================================
     // ADMIN - DIPUTADOS (Admin y Editor)
     // ============================================
-    //role:admin,editor
+    // ADMIN - DIPUTADOS
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/diputados', [DiputadoController::class, 'adminIndex'])->name('diputados.index');
         Route::get('/diputados/create', [DiputadoController::class, 'create'])->name('diputados.create');
@@ -77,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/diputados/{id}/edit', [DiputadoController::class, 'edit'])->name('diputados.edit');
         Route::put('/diputados/{id}', [DiputadoController::class, 'update'])->name('diputados.update');
         Route::delete('/diputados/{id}', [DiputadoController::class, 'destroy'])->name('diputados.destroy');
+        Route::get('/diputados/{id}/toggle', [DiputadoController::class, 'toggleStatus'])->name('diputados.toggle');
     });
 
    

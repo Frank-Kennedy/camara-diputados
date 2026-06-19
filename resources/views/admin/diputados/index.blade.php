@@ -3,25 +3,6 @@
 @section('title', 'Gestionar Diputados')
 
 @section('content')
-<!-- Buscador -->
-<div class="bg-white rounded-xl shadow-lg p-4 mb-6">
-    <form method="GET" action="{{ route('diputados.index') }}" class="flex flex-wrap gap-4">
-        <div class="flex-1 min-w-[200px]">
-            <input type="text" name="search" value="{{ request('search') }}" 
-                   placeholder="🔍 Buscar por nombre, partido o circunscripción..."
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
-        </div>
-        <button type="submit" class="btn-primary">
-            <i class="fas fa-search mr-1"></i> Buscar
-        </button>
-        @if(request('search'))
-            <a href="{{ route('diputados.index') }}" class="btn-secondary">
-                <i class="fas fa-times mr-1"></i> Limpiar
-            </a>
-        @endif
-    </form>
-</div>
-
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-wrap justify-between items-center mb-6">
         <div>
@@ -45,7 +26,7 @@
         </div>
     @endif
 
-    <!-- Buscador -->
+    <!-- Buscador y filtros -->
     <div class="bg-white rounded-xl shadow-lg p-4 mb-6">
         <form method="GET" action="{{ route('admin.diputados.index') }}" class="flex flex-wrap gap-4">
             <div class="flex-1 min-w-[200px]">
@@ -114,18 +95,22 @@
                                 <div class="flex gap-1 flex-wrap">
                                     <a href="{{ route('diputados.show', $diputado->id) }}" target="_blank"
                                        class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition text-xs">
-                                        <i class="fas fa-eye"></i> Detalles
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="{{ route('admin.diputados.edit', $diputado->id) }}" 
                                        class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-xs">
-                                        <i class="fas fa-edit"></i> Modificar
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('admin.diputados.toggle', $diputado->id) }}" 
+                                       class="bg-{{ $diputado->is_active ? 'orange' : 'green' }}-500 text-white px-2 py-1 rounded hover:bg-{{ $diputado->is_active ? 'orange' : 'green' }}-600 transition text-xs">
+                                        <i class="fas fa-{{ $diputado->is_active ? 'pause' : 'play' }}"></i>
                                     </a>
                                     <form method="POST" action="{{ route('admin.diputados.destroy', $diputado->id) }}" 
                                           onsubmit="return confirm('¿Eliminar este diputado?')" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition text-xs">
-                                            <i class="fas fa-trash"></i> Eliminar
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>
