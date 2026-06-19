@@ -3,6 +3,45 @@
 @section('title', 'Gestionar Leyes')
 
 @section('content')
+
+<!-- Buscador y Filtros -->
+<div class="bg-white rounded-xl shadow-lg p-4 mb-6">
+    <form method="GET" action="{{ route('leyes.index') }}" class="flex flex-wrap gap-4">
+        <div class="flex-1 min-w-[200px]">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                   placeholder="🔍 Buscar por título o código..."
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+        </div>
+        <div>
+            <select name="type" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+                <option value="">Todos los tipos</option>
+                <option value="ley" {{ request('type') == 'ley' ? 'selected' : '' }}>Ley</option>
+                <option value="proyecto" {{ request('type') == 'proyecto' ? 'selected' : '' }}>Proyecto</option>
+                <option value="resolucion" {{ request('type') == 'resolucion' ? 'selected' : '' }}>Resolución</option>
+                <option value="decreto" {{ request('type') == 'decreto' ? 'selected' : '' }}>Decreto</option>
+            </select>
+        </div>
+        <div>
+            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+                <option value="">Todos los estados</option>
+                <option value="propuesta" {{ request('status') == 'propuesta' ? 'selected' : '' }}>Propuesta</option>
+                <option value="en_discusion" {{ request('status') == 'en_discusion' ? 'selected' : '' }}>En Discusión</option>
+                <option value="aprobada" {{ request('status') == 'aprobada' ? 'selected' : '' }}>Aprobada</option>
+                <option value="rechazada" {{ request('status') == 'rechazada' ? 'selected' : '' }}>Rechazada</option>
+                <option value="archivada" {{ request('status') == 'archivada' ? 'selected' : '' }}>Archivada</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-primary">
+            <i class="fas fa-search mr-1"></i> Buscar
+        </button>
+        @if(request('search') || request('type') || request('status'))
+            <a href="{{ route('leyes.index') }}" class="btn-secondary">
+                <i class="fas fa-times mr-1"></i> Limpiar
+            </a>
+        @endif
+    </form>
+</div>
+
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-wrap justify-between items-center mb-6">
         <div>

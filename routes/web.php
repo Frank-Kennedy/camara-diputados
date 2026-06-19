@@ -45,6 +45,8 @@ Route::get('/transparencia/{id}/download-excel', [TransparenciaController::class
 Route::get('/consulta', [ConsultaController::class, 'create'])->name('consulta.create');
 Route::post('/consulta', [ConsultaController::class, 'store'])->name('consulta.store');
 
+// Upload de imágenes para el editor
+Route::post('/admin/upload-image', [NoticiaController::class, 'uploadImage'])->name('admin.upload.image')->middleware('auth');
 // ============================================
 // AUTENTICACIÓN
 // ============================================

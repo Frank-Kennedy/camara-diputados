@@ -59,7 +59,7 @@
 
                     <!-- Contenido -->
                     <div class="prose max-w-none text-gray-700 leading-relaxed">
-                        {!! nl2br(e($noticia->content)) !!}
+                        {!! $noticia->content !!}
                     </div>
 
                     <!-- Tags -->

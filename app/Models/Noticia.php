@@ -85,18 +85,7 @@ class Noticia extends Model
         return $this->hasMany(GaleriaImagen::class)->orderBy('order');
     }
 
-// Accesors para categoría
-    public function getCategoryLabelAttribute()
-    {
-        $labels = [
-            'institucional' => 'Institucional',
-            'legislativo' => 'Legislativo',
-            'eventos' => 'Eventos',
-            'comunicados' => 'Comunicados',
-            'internacional' => 'Internacional',
-        ];
-        return $labels[$this->category] ?? $this->category;
-    }
+
 
     public function getStatusLabelAttribute()
     {
@@ -108,17 +97,7 @@ class Noticia extends Model
         return $this->is_published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800';
     }
 
-    public function getCategoryColorAttribute()
-    {
-        $colors = [
-            'institucional' => 'bg-blue-100 text-blue-800',
-            'legislativo' => 'bg-purple-100 text-purple-800',
-            'eventos' => 'bg-green-100 text-green-800',
-            'comunicados' => 'bg-orange-100 text-orange-800',
-            'internacional' => 'bg-teal-100 text-teal-800',
-        ];
-        return $colors[$this->category] ?? 'bg-gray-100 text-gray-800';
-    }
+
 
     // ============================================
     // SCOPES (Consultas personalizadas)
@@ -202,9 +181,24 @@ class Noticia extends Model
         return $this->$field ?? $this->content_es;
     }
 
-    /**
-     * Obtener la categoría traducida.
-     */
+   // Accesors para categoría
+
+
+
+
+
+
+public function getCategoryColorAttribute()
+{
+    $colors = [
+        'institucional' => 'bg-blue-100 text-blue-800',
+        'legislativo' => 'bg-purple-100 text-purple-800',
+        'eventos' => 'bg-green-100 text-green-800',
+        'comunicados' => 'bg-orange-100 text-orange-800',
+        'internacional' => 'bg-teal-100 text-teal-800',
+    ];
+    return $colors[$this->category] ?? 'bg-gray-100 text-gray-800';
+}
 
 
     /**

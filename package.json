@@ -15,6 +15,8 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "chart.js": "^4.5.1"
+        "@tinymce/tinymce-vue": "^6.3.0",
+        "chart.js": "^4.5.1",
+        "tinymce": "^8.6.0"
     }
 }

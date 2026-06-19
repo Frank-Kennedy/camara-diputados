@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Cámara de Diputados')</title>
+        <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}">
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- TinyMCE desde CDN (más rápido) -->
+    <script src="https://cdn.tiny.cloud/1/{{ env('TINYMCE_API_KEY') }}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     
     <!-- Tailwind CSS desde CDN (temporal) -->
     <script src="https://cdn.tailwindcss.com"></script>

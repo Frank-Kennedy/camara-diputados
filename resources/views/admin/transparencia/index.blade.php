@@ -3,6 +3,42 @@
 @section('title', 'Gestionar Transparencia')
 
 @section('content')
+<!-- Buscador y Filtros -->
+<div class="bg-white rounded-xl shadow-lg p-4 mb-6">
+    <form method="GET" action="{{ route('transparencia.index') }}" class="flex flex-wrap gap-4">
+        <div class="flex-1 min-w-[200px]">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                   placeholder="🔍 Buscar documentos..."
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+        </div>
+        <div>
+            <select name="category" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+                <option value="">Todas las categorías</option>
+                <option value="presupuesto" {{ request('category') == 'presupuesto' ? 'selected' : '' }}>Presupuesto</option>
+                <option value="informe_gestion" {{ request('category') == 'informe_gestion' ? 'selected' : '' }}>Informe de Gestión</option>
+                <option value="rendicion_cuentas" {{ request('category') == 'rendicion_cuentas' ? 'selected' : '' }}>Rendición de Cuentas</option>
+                <option value="contrataciones" {{ request('category') == 'contrataciones' ? 'selected' : '' }}>Contrataciones</option>
+                <option value="planificacion" {{ request('category') == 'planificacion' ? 'selected' : '' }}>Planificación</option>
+            </select>
+        </div>
+        <div>
+            <select name="year" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+                <option value="">Todos los años</option>
+                @for($y = date('Y'); $y >= 2020; $y--)
+                    <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>{{ $y }}</option>
+                @endfor
+            </select>
+        </div>
+        <button type="submit" class="btn-primary">
+            <i class="fas fa-search mr-1"></i> Buscar
+        </button>
+        @if(request('search') || request('category') || request('year'))
+            <a href="{{ route('transparencia.index') }}" class="btn-secondary">
+                <i class="fas fa-times mr-1"></i> Limpiar
+            </a>
+        @endif
+    </form>
+</div>
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-wrap justify-between items-center mb-6">
         <div>

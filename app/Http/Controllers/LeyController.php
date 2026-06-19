@@ -13,22 +13,41 @@ class LeyController extends Controller
     /**
      * Página pública - Lista de leyes
      */
-    public function index()
-    {
-        $leyes = Ley::where('is_public', true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-        
-        // Estadísticas
-        $stats = [
-            'total' => Ley::where('is_public', true)->count(),
-            'aprobadas' => Ley::where('is_public', true)->where('status', 'aprobada')->count(),
-            'proyectos' => Ley::where('is_public', true)->where('type', 'proyecto')->count(),
-            'en_discusion' => Ley::where('is_public', true)->where('status', 'en_discusion')->count(),
-        ];
-        
-        return view('leyes.index', compact('leyes', 'stats'));
+  public function index(Request $request)
+{
+    $query = Ley::where('is_public', true);
+    
+    // Buscador
+    if ($request->has('search') && !empty($request->search)) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('title_es', 'like', "%{$search}%")
+              ->orWhere('code', 'like', "%{$search}%")
+              ->orWhere('summary_es', 'like', "%{$search}%");
+        });
     }
+    
+    // Filtros adicionales
+    if ($request->has('type') && !empty($request->type)) {
+        $query->where('type', $request->type);
+    }
+    
+    if ($request->has('status') && !empty($request->status)) {
+        $query->where('status', $request->status);
+    }
+    
+    $leyes = $query->orderBy('created_at', 'desc')->paginate(10);
+    
+    // Estadísticas
+    $stats = [
+        'total' => Ley::where('is_public', true)->count(),
+        'aprobadas' => Ley::where('is_public', true)->where('status', 'aprobada')->count(),
+        'proyectos' => Ley::where('is_public', true)->where('type', 'proyecto')->count(),
+        'en_discusion' => Ley::where('is_public', true)->where('status', 'en_discusion')->count(),
+    ];
+    
+    return view('leyes.index', compact('leyes', 'stats'));
+}
 
     private function checkPermission()
     {

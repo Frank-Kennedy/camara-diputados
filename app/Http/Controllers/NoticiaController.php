@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class NoticiaController extends Controller
 {
     /**
-     * Verificar permisos en cada método
+     * Verificar permisos de administrador/editor
      */
     private function checkPermission()
     {
@@ -23,26 +23,29 @@ class NoticiaController extends Controller
         }
     }
 
-    public function adminIndex()
-    {
-        $this->checkPermission();
-        $noticias = Noticia::with('user')->orderBy('created_at', 'desc')->paginate(15);
-        return view('admin.noticias.index', compact('noticias'));
-    }
-
-    public function create()
-    {
-        $this->checkPermission();
-        return view('admin.noticias.create');
-    }    
-// ============================================
+    // ============================================
     // PÁGINA PÚBLICA - LISTA DE NOTICIAS
     // ============================================
-    public function index()
+    public function index(Request $request)
     {
-        $noticias = Noticia::where('is_published', true)
-            ->orderBy('published_date', 'desc')
-            ->paginate(9);
+        $query = Noticia::where('is_published', true);
+        
+        // Buscador
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title_es', 'like', "%{$search}%")
+                  ->orWhere('summary_es', 'like', "%{$search}%")
+                  ->orWhere('content_es', 'like', "%{$search}%");
+            });
+        }
+        
+        // Filtro por categoría
+        if ($request->has('category') && !empty($request->category)) {
+            $query->where('category', $request->category);
+        }
+        
+        $noticias = $query->orderBy('published_date', 'desc')->paginate(9);
         
         $destacadas = Noticia::where('is_published', true)
             ->where('is_featured', true)
@@ -52,7 +55,6 @@ class NoticiaController extends Controller
         
         return view('noticias.index', compact('noticias', 'destacadas'));
     }
-
 
     // ============================================
     // PÁGINA PÚBLICA - DETALLE DE NOTICIA
@@ -75,12 +77,35 @@ class NoticiaController extends Controller
         return view('noticias.show', compact('noticia', 'relacionadas'));
     }
 
+    // ============================================
+    // ADMIN - LISTA DE NOTICIAS
+    // ============================================
+    public function adminIndex()
+    {
+        $this->checkPermission();
+        $noticias = Noticia::with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+        
+        return view('admin.noticias.index', compact('noticias'));
+    }
+
+    // ============================================
+    // ADMIN - CREAR NOTICIA (FORMULARIO)
+    // ============================================
+    public function create()
+    {
+        $this->checkPermission();
+        return view('admin.noticias.create');
+    }
 
     // ============================================
     // ADMIN - GUARDAR NOTICIA
     // ============================================
     public function store(Request $request)
     {
+        $this->checkPermission();
+        
         $request->validate([
             'title_es' => 'required|string|max:255',
             'summary_es' => 'required|string',
@@ -129,6 +154,7 @@ class NoticiaController extends Controller
     // ============================================
     public function update(Request $request, $id)
     {
+        $this->checkPermission();
         $noticia = Noticia::findOrFail($id);
 
         $request->validate([
@@ -173,6 +199,7 @@ class NoticiaController extends Controller
     // ============================================
     public function togglePublish($id)
     {
+        $this->checkPermission();
         $noticia = Noticia::findOrFail($id);
         $noticia->is_published = !$noticia->is_published;
         $noticia->save();
@@ -187,6 +214,7 @@ class NoticiaController extends Controller
     // ============================================
     public function destroy($id)
     {
+        $this->checkPermission();
         $noticia = Noticia::findOrFail($id);
         
         if ($noticia->featured_image) {
@@ -197,5 +225,30 @@ class NoticiaController extends Controller
 
         return redirect()->route('admin.noticias.index')
             ->with('success', 'Noticia eliminada correctamente');
+    }
+
+    // ============================================
+    // UPLOAD DE IMÁGENES PARA EL EDITOR
+    // ============================================
+    public function uploadImage(Request $request)
+    {
+        $this->checkPermission();
+        
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            
+            $request->validate([
+                'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120'
+            ]);
+            
+            $name = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('noticias/editor/' . date('Y/m'), $name, 'public');
+            
+            return response()->json([
+                'location' => asset('storage/' . $path)
+            ]);
+        }
+        
+        return response()->json(['error' => 'No se pudo subir la imagen'], 400);
     }
 }

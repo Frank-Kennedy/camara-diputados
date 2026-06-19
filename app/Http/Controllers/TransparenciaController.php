@@ -10,14 +10,33 @@ class TransparenciaController extends Controller
     /**
      * Página pública - Lista de documentos de transparencia
      */
-    public function index()
+    public function index(Request $request)
     {
-        $documentos = Transparencia::where('is_public', true)
-            ->orderBy('year', 'desc')
+        $query = Transparencia::where('is_public', true);
+        
+        // Buscador
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title_es', 'like', "%{$search}%")
+                ->orWhere('description_es', 'like', "%{$search}%");
+            });
+        }
+        
+        // Filtro por categoría
+        if ($request->has('category') && !empty($request->category)) {
+            $query->where('category', $request->category);
+        }
+        
+        // Filtro por año
+        if ($request->has('year') && !empty($request->year)) {
+            $query->where('year', $request->year);
+        }
+        
+        $documentos = $query->orderBy('year', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(12);
         
-        // Agrupar por categoría para estadísticas
         $categorias = [
             'presupuesto' => Transparencia::where('is_public', true)->where('category', 'presupuesto')->count(),
             'informe_gestion' => Transparencia::where('is_public', true)->where('category', 'informe_gestion')->count(),

@@ -16,9 +16,9 @@
             <div>
                 <h4 class="font-bold mb-4">Síguenos</h4>
                 <div class="flex space-x-4 text-2xl">
-                    <a href="#" class="hover:text-parlamento-oro transition"><i class="fas fa-facebook mr-2"></i>  </a>
-                    <a href="#" class="hover:text-parlamento-oro transition"><i class="fas fa-x mr-2"></i></a>
-                    <a href="#" class="hover:text-parlamento-oro transition"><i class="fas fa-youtube mr-2"></i> </a>
+                    <a href="#" title='Facebook' class="hover:text-parlamento-oro transition"><i class="fas fa-f mr-2"></i>  </a>
+                    <a href="#" title='X' class="hover:text-parlamento-oro transition"><i class="fas fa-x mr-2"></i></a>
+                    <a href="#" title='YouTube' class="hover:text-parlamento-oro transition"><i class="fas fa-y mr-2"></i> </a>
                 </div>
             </div>
         </div>

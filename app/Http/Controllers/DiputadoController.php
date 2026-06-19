@@ -25,11 +25,23 @@ class DiputadoController extends Controller
     // MÉTODOS PÚBLICOS
     // ============================================
 
-    public function index()
+    public function index(Request $request)
     {
-        $diputados = Diputado::where('is_active', true)
-            ->orderBy('name')
-            ->paginate(12);
+        $query = Diputado::where('is_active', true);
+        
+        // Buscador
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('last_name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('political_party', 'like', "%{$search}%")
+                ->orWhere('constituency', 'like', "%{$search}%");
+            });
+        }
+        
+        $diputados = $query->orderBy('name')->paginate(12);
         
         return view('diputados.index', compact('diputados'));
     }

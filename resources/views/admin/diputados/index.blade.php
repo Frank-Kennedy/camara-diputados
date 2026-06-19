@@ -3,6 +3,25 @@
 @section('title', 'Gestionar Diputados')
 
 @section('content')
+<!-- Buscador -->
+<div class="bg-white rounded-xl shadow-lg p-4 mb-6">
+    <form method="GET" action="{{ route('diputados.index') }}" class="flex flex-wrap gap-4">
+        <div class="flex-1 min-w-[200px]">
+            <input type="text" name="search" value="{{ request('search') }}" 
+                   placeholder="🔍 Buscar por nombre, partido o circunscripción..."
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-parlamento-azul">
+        </div>
+        <button type="submit" class="btn-primary">
+            <i class="fas fa-search mr-1"></i> Buscar
+        </button>
+        @if(request('search'))
+            <a href="{{ route('diputados.index') }}" class="btn-secondary">
+                <i class="fas fa-times mr-1"></i> Limpiar
+            </a>
+        @endif
+    </form>
+</div>
+
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-wrap justify-between items-center mb-6">
         <div>
