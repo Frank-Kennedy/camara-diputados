@@ -17,6 +17,7 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="{{ route('home') }}" class="hover:text-parlamento-oro transition">Inicio</a>
                 <a href="{{ route('diputados.index') }}" class="hover:text-parlamento-oro transition">Diputados</a>
+                <a href="{{ route('comisiones.index') }}" class="hover:text-parlamento-oro transition">Comisiones</a>
                 <a href="{{ route('leyes.index') }}" class="hover:text-parlamento-oro transition">Legislativo</a>
                 <a href="{{ route('noticias.index') }}" class="hover:text-parlamento-oro transition">Noticias</a>
                 <a href="{{ route('transparencia.index') }}" class="hover:text-parlamento-oro transition">Transparencia</a>
@@ -64,6 +65,7 @@
             <div class="flex flex-col space-y-3">
                 <a href="{{ route('home') }}" class="hover:text-parlamento-oro transition py-2 px-4 hover:bg-white/10 rounded">Inicio</a>
                 <a href="{{ route('diputados.index') }}" class="hover:text-parlamento-oro transition py-2 px-4 hover:bg-white/10 rounded">Diputados</a>
+                <a href="{{ route('comisiones.index') }}" class="hover:text-parlamento-oro transition py-2 px-4 hover:bg-white/10 rounded">Comisiones</a>
                 <a href="{{ route('leyes.index') }}" class="hover:text-parlamento-oro transition py-2 px-4 hover:bg-white/10 rounded">Legislativo</a>
                 <a href="{{ route('noticias.index') }}" class="hover:text-parlamento-oro transition py-2 px-4 hover:bg-white/10 rounded">Noticias</a>
                 <a href="{{ route('transparencia.index') }}" class="hover:text-parlamento-oro transition py-2 px-4 hover:bg-white/10 rounded">Transparencia</a>

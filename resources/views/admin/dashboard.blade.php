@@ -101,6 +101,36 @@
         </div>
     </div>
 
+        <!-- Comisiones -->
+    <div class="card hover:-translate-y-1 transition-all duration-300">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="bg-parlamento-azul/10 p-3 rounded-full text-3xl">🏛️</div>
+            <div>
+                <h3 class="font-bold text-parlamento-azul">Comisiones</h3>
+                <p class="text-sm text-gray-500">Gestionar comisiones</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('admin.comisiones.index') }}" class="btn-primary text-sm">Listar</a>
+            <a href="{{ route('admin.comisiones.create') }}" class="btn-secondary text-sm">Crear</a>
+        </div>
+    </div>
+
+    <!-- Transparencia -->
+    <div class="card hover:-translate-y-1 transition-all duration-300">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="bg-parlamento-azul/10 p-3 rounded-full text-3xl">📊</div>
+            <div>
+                <h3 class="font-bold text-parlamento-azul">Transparencia</h3>
+                <p class="text-sm text-gray-500">Gestionar documentos</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('admin.transparencia.index') }}" class="btn-primary text-sm">Listar</a>
+            <a href="{{ route('admin.transparencia.create') }}" class="btn-secondary text-sm">Crear</a>
+        </div>
+    </div>
+
     <!-- Actividad reciente -->
     <div class="bg-white rounded-xl shadow-lg p-6">
         <h2 class="text-xl font-bold text-parlamento-azul mb-4">📋 Actividad Reciente</h2>

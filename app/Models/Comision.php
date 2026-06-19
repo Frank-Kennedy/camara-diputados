@@ -29,16 +29,12 @@ class Comision extends Model
         'is_active' => 'boolean',
     ];
 
-    // Relación con diputados
+    // Relaciones
     public function diputados()
     {
-        return $this->belongsToMany(
-            Diputado::class,
-            'diputado_comision',
-            'comision_id',
-            'diputado_id'
-        )->withPivot('role')
-         ->withTimestamps();
+        return $this->belongsToMany(Diputado::class, 'diputado_comision', 'comision_id', 'diputado_id')
+            ->withPivot('role')
+            ->withTimestamps();
     }
 
     public function leyes()
@@ -72,5 +68,12 @@ class Comision extends Model
     public function getDiputadosCountAttribute()
     {
         return $this->diputados()->where('is_active', true)->count();
+    }
+
+    public function getStatusBadgeAttribute()
+    {
+        return $this->is_active 
+            ? '<span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Activa</span>'
+            : '<span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Inactiva</span>';
     }
 }
